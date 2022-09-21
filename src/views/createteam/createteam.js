@@ -1,65 +1,97 @@
 import React from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
 import "./createteam.css";
+import { useParams } from "react-router-dom";
 import {
-  CForm,
-  CFormLabel,
-  CFormTextarea,
-  CDropdown,
-  CDropdownToggle,
-  CDropdownMenu,
-  CDropdownItem,
   CButton,
-  CAccordion,
-  CAccordionItem,
-  CAccordionHeader,
-  CAccordionBody,
   CTable,
+  CTableRow,
+  CTableHead,
+  CTableHeaderCell,
+  CTableBody,
+  CTableDataCell,
 } from "@coreui/react";
-
+import { object } from "prop-types";
 function createteam() {
-  const teacherColumns = [
-    {
-      key: "id",
-      label: "#",
-      _props: { scope: "col" },
-    },
-    {
-      key: "class",
-      label: "Mentors",
-      _props: { scope: "col" },
-    },
-    {
-      key: "heading_1",
-      label: "",
-      _props: { scope: "col" },
-    },
-    {
-      key: "heading_2",
-      label: "Designation",
-      _props: { scope: "col" },
-    },
-  ];
-  const teacherItems = [
-    {
-      id: 1,
-      class: "Dipok",
-      heading_2: "Lecturer",
-      _cellProps: { id: { scope: "row" }, class: { colSpan: 2 } },
-    },
-    {
-      id: 1,
-      class: "Ifty",
-      heading_2: "Lecturer",
-      _cellProps: { id: { scope: "row" }, class: { colSpan: 2 } },
-    },
-  ];
+  const { joinCode } = useParams();
+  const [studentTeacherList, setStudentTeacherList] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get(
+        `http://127.0.0.1:8000/api/spl-manager/student-mentor-list-create-team/${joinCode}`
+      )
+      .then((res) => {
+        setStudentTeacherList(res.data);
+        console.log(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+  console.log("ss", studentTeacherList);
   return (
     <>
-      <div className="header">Mentor List</div>
-      <CTable columns={teacherColumns} items={teacherItems} />
+      {Object.keys(studentTeacherList).length > 0 && (
+        <>
+          <div className="header">Mentor List</div>
+          <CTable>
+            <CTableHead>
+              <CTableRow>
+                <CTableHeaderCell scope="col">#</CTableHeaderCell>
+                <CTableHeaderCell scope="col">Name</CTableHeaderCell>
+                <CTableHeaderCell scope="col">Designation</CTableHeaderCell>
+              </CTableRow>
+            </CTableHead>
+            <CTableBody>
+              {studentTeacherList.mentors.map((mentor, id) => (
+                <CTableRow>
+                  <CTableHeaderCell scope="row">{id}</CTableHeaderCell>
+                  <CTableDataCell>
+                    {mentor.user.firstname} {mentor.user.lastname}
+                  </CTableDataCell>
+                  <CTableDataCell>{mentor.designation}</CTableDataCell>
+                </CTableRow>
+              ))}
+            </CTableBody>
+          </CTable>
 
-      <div className="header">Student List</div>
-      {/* <CTable columns={columns} items={items} /> */}
+          <div className="header" style={{ marginTop: "30px" }}>
+            Student List
+          </div>
+          <CTable>
+            <CTableHead>
+              <CTableRow>
+                <CTableHeaderCell scope="col">#</CTableHeaderCell>
+                <CTableHeaderCell scope="col">Name</CTableHeaderCell>
+                <CTableHeaderCell scope="col">Roll</CTableHeaderCell>
+                <CTableHeaderCell scope="col">CGPA</CTableHeaderCell>
+              </CTableRow>
+            </CTableHead>
+            <CTableBody>
+              {studentTeacherList.students.map((student, id) => (
+                <CTableRow>
+                  <CTableHeaderCell scope="row">{id}</CTableHeaderCell>
+                  <CTableDataCell>
+                    {student.user.firstname} {student.user.lastname}
+                  </CTableDataCell>
+                  <CTableDataCell>{student.roll}</CTableDataCell>
+                  <CTableDataCell>{student.cgpa}</CTableDataCell>
+                </CTableRow>
+              ))}
+            </CTableBody>
+          </CTable>
+          <a
+            href={"http://127.0.0.1:8000/api/spl-manager/form-team/" + joinCode}
+            className="link"
+          >
+            <CButton color="dark" style={{ marginTop: "30px" }} type="submit">
+              Create team by cgpa
+            </CButton>
+          </a>
+        </>
+      )}
     </>
   );
 }

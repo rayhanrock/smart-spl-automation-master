@@ -15,7 +15,7 @@ class TeacherSerializer(serializers.ModelSerializer):
         model = models.UserProfile
         fields = ['username', 'first_name', 'last_name', 'email', 'designation', 'password', 'confirm_password',
                   'is_teacher',
-                  'is_student','is_verified','token']
+                  'is_student', 'is_verified', 'token']
 
         extra_kwargs = {
             'password': {
@@ -268,6 +268,30 @@ class Student(serializers.ModelSerializer):
     class Meta:
         model = models.Student
         fields = ['roll']
+
+
+class StudentSerializers(serializers.ModelSerializer):
+    user = serializers.SerializerMethodField()
+
+    class Meta:
+        model = models.Student
+        fields = ['user', 'roll', 'cgpa']
+
+    def get_user(self, obj):
+        res = {'firstname': obj.user_profile.first_name, 'lastname': obj.user_profile.last_name,'username' : obj.user_profile.username}
+        return res
+
+
+class TeacherSerializers(serializers.ModelSerializer):
+    user = serializers.SerializerMethodField()
+
+    class Meta:
+        model = models.Teacher
+        fields = ['user', 'designation', ]
+
+    def get_user(self, obj):
+        res = {'firstname': obj.user_profile.first_name, 'lastname': obj.user_profile.last_name, 'username' : obj.user_profile.username}
+        return res
 
 
 class StudentRetrieveUpdateSerializers(serializers.ModelSerializer):

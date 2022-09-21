@@ -8,6 +8,7 @@ class SplSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Spl
         fields = ['title', 'description', 'join_code','students','mentors']
+        depth = 2
 
         extra_kwargs = {
             'join_code': {

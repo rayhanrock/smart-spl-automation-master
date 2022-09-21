@@ -33,7 +33,6 @@ function Dashboard() {
     return str === null || str.match(/^ *$/) !== null;
   }
   const handleSubmit = (event) => {
-    const form = event.currentTarget;
     event.preventDefault();
     event.stopPropagation();
     const splName = event.target.splName.value;
