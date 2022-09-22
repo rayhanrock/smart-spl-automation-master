@@ -3,6 +3,7 @@ import { NavLink } from "react-router-dom";
 import axios from "axios";
 import "../Teacher/dashboard.css";
 import reactIMG from "../../../assets/images/theme.png";
+import { toast } from "react-toastify";
 import {
   CRow,
   CCard,
@@ -38,9 +39,9 @@ function Dashboard() {
     const splName = event.target.splName.value;
     const splDes = event.target.spldes.value;
     if (isEmptyOrSpaces(splName)) {
-      alert("name cant be empty");
+      toast.error("Name cant be empty");
     } else if (isEmptyOrSpaces(splDes)) {
-      alert("description cant be empty");
+      toast.error("description cant be empty");
     } else {
       setValidated(true);
 
@@ -57,7 +58,7 @@ function Dashboard() {
           setVisible(false);
         })
         .catch((error) => {
-          console.log(error.response.data);
+          console.log(error);
         });
     }
   };

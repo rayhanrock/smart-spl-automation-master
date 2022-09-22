@@ -9,36 +9,6 @@ import {
 } from "@coreui/react";
 
 function reportgenerator() {
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    event.stopPropagation();
-    const splName = event.target.splName.value;
-    const splDes = event.target.spldes.value;
-    if (isEmptyOrSpaces(splName)) {
-      alert("name cant be empty");
-    } else if (isEmptyOrSpaces(splDes)) {
-      alert("description cant be empty");
-    } else {
-      setValidated(true);
-
-      axios.defaults.headers = {
-        "Content-Type": "application/json",
-      };
-      axios
-        .post("http://127.0.0.1:8000/api/spl-manager/spl/", {
-          title: splName,
-          description: splDes,
-        })
-        .then((response) => {
-          console.log(response.data);
-          setVisible(false);
-        })
-        .catch((error) => {
-          console.log(error.response.data);
-        });
-    }
-  };
-
   return (
     <div>
       <CForm
