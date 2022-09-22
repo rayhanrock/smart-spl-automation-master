@@ -102,7 +102,7 @@ function Login({ login, isAuthenticated, isTeacher, isVerified, isStudent }) {
                 style={{ width: "44%" }}
               >
                 <CCardBody className="text-center">
-                  <div>
+                  <div className="sign-up-as">
                     <h1>Smart SPL Automation System</h1>
                     Sign up as{" "}
                     <Link to="/register/student" className="link">

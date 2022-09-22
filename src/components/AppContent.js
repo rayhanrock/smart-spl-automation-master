@@ -20,6 +20,9 @@ const Announcements = React.lazy(() =>
   import("../views/announcements/announcements")
 );
 const Task = React.lazy(() => import("../views/dashboard/projects/task/task"));
+const EditTask = React.lazy(() =>
+  import("../views/dashboard/projects/task/editTask")
+);
 
 const TeacherProjects = React.lazy(() =>
   import("../views/dashboard/Teacher/Projects")
@@ -56,6 +59,15 @@ const AppContent = () => {
                 <CreateTeam />
               </TPrivateRoute>
             }
+          />{" "}
+          <Route
+            path="/edit-task/:taskID"
+            exact
+            element={
+              <TPrivateRoute>
+                <EditTask />
+              </TPrivateRoute>
+            }
           />
           <Route
             path="/dashboard/student"
@@ -67,6 +79,12 @@ const AppContent = () => {
             }
           />
           <Route exact path="/join/spl" name="" element={<JoinSpl />} />
+          <Route
+            exact
+            path="/spls/projects/:projectID"
+            name=""
+            element={<Task />}
+          />
           <Route path="/announcements" exact element={<Announcements />} />
           <Route path="/reportgenerator" exact element={<ReportGenerator />} />
         </Routes>

@@ -8,11 +8,12 @@ from users.models import Student, Teacher
 class Team(models.Model):
     name = models.CharField(max_length=20, null=True, blank=True)
     students = models.ManyToManyField(Student, related_name="team_students", null=True, blank=True)
-    mentor = models.ForeignKey(Teacher, related_name="team_mentor", null=True, blank=True,on_delete=models.CASCADE,)
+    mentor = models.ForeignKey(Teacher, related_name="team_mentor", null=True, blank=True, on_delete=models.CASCADE, )
     spl_code = models.CharField(max_length=8, null=True, blank=True)
 
     def __str__(self):
         return str(self.name)
+
 
 # user= User.objects.get(name=request.data['name'](
 # student= Student.objects.get(name=request.data['name']
@@ -31,10 +32,11 @@ class Project(models.Model):
 
 class Task(models.Model):
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
+    description = models.CharField(max_length=200, null=True, blank=True)
     assign = models.ManyToManyField(Student, related_name="task", null=True, blank=True)
     name = models.CharField(max_length=80)
-    status = models.CharField(max_length=7)
-    priority = models.CharField(max_length=7)
+    status = models.CharField(max_length=20)
+    priority = models.CharField(max_length=20)
 
     def __str__(self):
         return str(self.name)

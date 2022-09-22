@@ -8,6 +8,7 @@ import reactIMG from "./../../../assets/images/theme.png";
 import "../../dashboard/projects.css";
 import { isEmptyOrSpaces } from "src/views/utils";
 import { toast } from "react-toastify";
+import { NavLink } from "react-router-dom";
 import {
   CRow,
   CCard,
@@ -28,6 +29,7 @@ import {
   CFormTextarea,
   CMultiSelect,
   CForm,
+  CNavLink,
 } from "@coreui/react";
 
 function projects() {
@@ -126,7 +128,7 @@ function projects() {
           setVisible(false);
         })
         .catch((error) => {
-          console.log(error.response.data);
+          console.log(error);
         });
     }
   };
@@ -242,7 +244,11 @@ function projects() {
               <CCardBody>
                 <CCardTitle>{project.title}</CCardTitle>
                 <CCardText>{project.description}</CCardText>
-                <a href="projects/task" className="stretched-link"></a>
+                <CNavLink
+                  to={"/spls/projects/" + project.id}
+                  className="stretched-link"
+                  component={NavLink}
+                ></CNavLink>
               </CCardBody>
               <CCardFooter>
                 <small className="text-medium-emphasis">

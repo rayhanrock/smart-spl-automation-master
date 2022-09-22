@@ -62,8 +62,8 @@ class App extends Component {
                   element={<VerifyEmail />}
                 />
 
-                <Route path="*" name="Home" element={<DefaultLayout />} />
                 <Route exact path="/" name="Login Page" element={<Login />} />
+                <Route path="*" name="Home" element={<DefaultLayout />} />
               </Routes>
               <ToastContainer
                 position="top-right"

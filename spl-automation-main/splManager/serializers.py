@@ -1,13 +1,31 @@
 from rest_framework import serializers
 from .utils import unique_spl_join_code
 from . import models
-from users.serializers import StudentSerializer, Teacher
+
+
+class TaskSerializer(serializers.ModelSerializer):
+    assign = serializers.SerializerMethodField()
+
+    class Meta:
+        model = models.Task
+        fields = ['id', 'project', 'assign', 'name', 'status', 'priority', 'description']
+
+    def get_assign(self, obj):
+        result = []
+        for i in obj.assign.all():
+            x = {}
+            x['username'] = i.user_profile.username
+            x['first_name'] = i.user_profile.first_name
+            x['last_name'] = i.user_profile.last_name
+            result.append(x)
+
+        return result
 
 
 class SplSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Spl
-        fields = ['title', 'description', 'join_code','students','mentors']
+        fields = ['title', 'description', 'join_code', 'students', 'mentors']
         depth = 2
 
         extra_kwargs = {
